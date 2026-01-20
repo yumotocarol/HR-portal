@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Company Name</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        nav {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .link-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .link-card:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .link-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .link-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .placeholder {
+            background: #f9f9f9;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .directory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .directory-table th,
+        .directory-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .directory-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .directory-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .manuals-list {
+            list-style: none;
+        }
+
+        .manual-item {
+            background: #f9f9f9;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .manual-item:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .manual-item h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .manual-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .manual-item a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .directory-table {
+                font-size: 0.9rem;
+            }
+
+            .directory-table th,
+            .directory-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>HR Portal</h1>
+            <p class="subtitle">Your central hub for all HR resources and information</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="showSection('documents')">Document Links</button>
+            <button class="nav-btn" onclick="showSection('directory')">Company Directory</button>
+            <button class="nav-btn" onclick="showSection('pto')">PTO Request</button>
+            <button class="nav-btn" onclick="showSection('manuals')">HR Manuals</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Document Links Section -->
+        <section id="documents" class="section active">
+            <h2>Document Links</h2>
+            <p>Access important company spreadsheets and documents</p>
+            
+            <div class="links-grid">
+                <a href="#" class="link-card">
+                    <h3>📊 Employee Database</h3>
+                    <p>Master list of all employees and their information</p>
+                </a>
+                <a href="#" class="link-card">
+                    <h3>💰 Payroll Information</h3>
+                    <p>Salary schedules and payroll dates</p>
+                </a>
+                <a href="#" class="link-card">
+                    <h3>📅 PTO Tracker</h3>
+                    <p>Track vacation days and time off</p>
+                </a>
+                <a href="#" class="link-card">
+                    <h3>🏥 Benefits Overview</h3>
+                    <p>Health insurance and benefits information</p>
+                </a>
+                <a href="#" class="link-card">
+                    <h3>📋 Project Tracker</h3>
+                    <p>Current projects and assignments</p>
+                </a>
+                <a href="#" class="link-card">
+                    <h3>📈 Performance Reviews</h3>
+                    <p>Review schedules and templates</p>
+                </a>
+            </div>
+
+            <div class="placeholder" style="margin-top: 2rem;">
+                Replace the "#" in each link above with your actual Google Sheets URLs
+            </div>
+        </section>
+
+        <!-- Company Directory Section -->
+        <section id="directory" class="section">
+            <h2>Company Directory</h2>
+            <p>Find contact information and schedules for all team members</p>
+            
+            <table class="directory-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Birthday</th>
+                        <th>Phone</th>
+                        <th>Lunch Break</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Smith</td>
+                        <td>CEO</td>
+                        <td>Jan 15</td>
+                        <td>(555) 123-4567</td>
+                        <td>12:00 PM - 1:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Doe</td>
+                        <td>HR Manager</td>
+                        <td>Mar 22</td>
+                        <td>(555) 234-5678</td>
+                        <td>12:30 PM - 1:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Mike Johnson</td>
+                        <td>Operations Lead</td>
+                        <td>Jul 8</td>
+                        <td>(555) 345-6789</td>
+                        <td>11:30 AM - 12:30 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="placeholder" style="margin-top: 2rem;">
+                Replace the sample data above with your actual employee information
+            </div>
+        </section>
+
+        <!-- PTO Request Section -->
+        <section id="pto" class="section">
+            <h2>PTO Request Form</h2>
+            <p>Submit your time-off request</p>
+
+            <form id="ptoForm">
+                <div class="form-group">
+                    <label for="employeeName">Employee Name</label>
+                    <input type="text" id="employeeName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" id="department" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ptoType">Type of Leave</label>
+                    <select id="ptoType" required>
+                        <option value="">Select type...</option>
+                        <option value="vacation">Vacation</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="personal">Personal Day</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reason">Reason (Optional)</label>
+                    <textarea id="reason" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Request</button>
+            </form>
+
+            <div class="placeholder" style="margin-top: 2rem;">
+                This form currently displays data on submit. You can:<br>
+                1. Create a Google Form and link to it here, OR<br>
+                2. Integrate with Google Sheets using Google Apps Script to automatically save submissions
+            </div>
+        </section>
+
+        <!-- HR Manuals Section -->
+        <section id="manuals" class="section">
+            <h2>HR Manuals & Rulebooks</h2>
+            <p>Company policies and employee handbooks</p>
+
+            <ul class="manuals-list">
+                <li class="manual-item">
+                    <h3>Employee Handbook</h3>
+                    <p>Complete guide to company policies, culture, and expectations</p>
+                    <a href="#">📄 View Handbook</a>
+                </li>
+                <li class="manual-item">
+                    <h3>Code of Conduct</h3>
+                    <p>Ethical guidelines and behavioral standards</p>
+                    <a href="#">📄 View Code of Conduct</a>
+                </li>
+                <li class="manual-item">
+                    <h3>Safety Policies</h3>
+                    <p>Workplace safety rules and emergency procedures</p>
+                    <a href="#">📄 View Safety Policies</a>
+                </li>
+                <li class="manual-item">
+                    <h3>IT & Security Guidelines</h3>
+                    <p>Technology usage and data security policies</p>
+                    <a href="#">📄 View IT Guidelines</a>
+                </li>
+                <li class="manual-item">
+                    <h3>Benefits Guide</h3>
+                    <p>Detailed information about employee benefits and enrollment</p>
+                    <a href="#">📄 View Benefits Guide</a>
+                </li>
+            </ul>
+
+            <div class="placeholder" style="margin-top: 2rem;">
+                Replace the "#" in each link with your actual document URLs (PDFs, Google Docs, etc.)
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Company Name. All rights reserved.</p>
+            <p>Questions? Contact HR at hr@company.com</p>
+        </div>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle PTO form submission
+        document.getElementById('ptoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('employeeName').value,
+                department: document.getElementById('department').value,
+                type: document.getElementById('ptoType').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                reason: document.getElementById('reason').value
+            };
+
+            alert('PTO Request Submitted!\n\nName: ' + formData.name + '\nDates: ' + formData.startDate + ' to ' + formData.endDate + '\n\nNote: This is a demo. Connect to Google Forms or Sheets for actual submission.');
+            
+            this.reset();
+        });
+    </script>
+</body>
+</html>
